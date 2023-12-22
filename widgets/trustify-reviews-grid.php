@@ -16,7 +16,7 @@ class TRUSTIFY_REVIEWS_GRID extends Widget_Base {
     }
 
     public function get_title() {
-        return esc_html__('Tabs and Carousel', 'trustify-reviews');
+        return esc_html__('Trustify Reviews Grid', 'trustify-reviews');
     }
 
 
@@ -29,7 +29,7 @@ class TRUSTIFY_REVIEWS_GRID extends Widget_Base {
     }
 
     public function get_keywords() {
-        return ['yelp', 'tabs', 'carousel'];
+        return ['trustify', 'reviews', 'grid'];
     }
 
 

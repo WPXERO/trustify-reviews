@@ -13,7 +13,6 @@
 
 namespace TRUSTIFY_REVIEWS;
 
-use TRUSTIFY_REVIEWS\WIDGETS\TABS_CAROUSEL;
 use TRUSTIFY_REVIEWS\WIDGETS\TRUSTIFY_REVIEWS_GRID;
 use Elementor\Plugin;
 
@@ -231,10 +230,8 @@ final class TRUSTIFY_REVIEWS_INIT {
         // slick slider
 
         wp_enqueue_style('trustify-reviews-css', plugin_dir_url(__FILE__) . 'assets/css/style.css', [], self::VERSION);
-        // wp_enqueue_script('trustify-reviews-js', plugin_dir_url(__FILE__) . 'assets/js/tabs-carousel.js', ['jquery'], self::VERSION, true);
         wp_enqueue_script('trustify-reviews-js', plugin_dir_url(__FILE__) . 'assets/js/trustify-reviews-grid.js', ['jquery'], self::VERSION, true);
         wp_localize_script('trustify-reviews-js', 'TRUSTIFY_REVIEWSObj', array(
-            'FB_APP_ID' => '506449888296992',
             'ajaxurl' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('TRUSTIFY_REVIEWS_nonce'),
 
@@ -246,9 +243,6 @@ final class TRUSTIFY_REVIEWS_INIT {
      */
 
     function init_widgets($widgets_manager) {
-        require_once __DIR__ . '/widgets/tabs-carousel.php';
-        // $widgets_manager->register(new TABS_CAROUSEL());
-
         require_once __DIR__ . '/widgets/trustify-reviews-grid.php';
         $widgets_manager->register(new TRUSTIFY_REVIEWS_GRID());
     }
