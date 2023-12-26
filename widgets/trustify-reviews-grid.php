@@ -703,6 +703,6 @@ class TRUSTIFY_REVIEWS_GRID extends Widget_Base {
 ?>
         <div <?php $this->print_render_attribute_string('trustify-reviews-grid'); ?>>
         </div>
-<?php
+    <?php
     }
 }

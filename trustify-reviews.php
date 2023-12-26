@@ -130,59 +130,26 @@ final class TRUSTIFY_REVIEWS_INIT {
             die();
         }
 
-        // $getData = $this->get_cached_api_data($_POST['filter']);
-        // if ($getData) {
-        //     wp_send_json($getData);
-        // } else {
-        $this->your_api_request_function();
-        // }
+        $getData = $this->get_cached_api_data('ffnnn');
+        if ($getData) {
+            wp_send_json($getData);
+        } else {
+            $this->your_api_request_function();
+        }
     }
 
-    public function __your_api_request_function($filter_item) {
+    public function get_cached_api_data($filter) {
+        $cache_key = 'TRUSTIFY_REVIEWS_' . $filter;
+        $cache_data = get_transient($cache_key);
+        if ($cache_data) {
+            return $cache_data;
+        }
+        return false;
+    }
 
-        // if (isset($_POST['settings']['yelpApiKey']) && !empty($_POST['settings']['yelpApiKey'])) {
-        //     $apiKey = $_POST['settings']['yelpApiKey'];
-        // } else {
-        //     $apiKey = 'naus-Hoyx6VPJkorSIpms3yQmQ72iwD7vO5BIivoZkzbBMO5CjtSeON-lcYY4qIRMf9LDSwur6H_hjm7my7W-k1qN0F7LOjvPoaTIfJFk5U2i_s6cnjG-j79PUBwZXYx'; // Replace with your Yelp API key
-        // }
-        // $endpoint = $this->getApiUrl();
-
-        // $headers = [
-        //     'Authorization: Bearer ' . $apiKey,
-        // ];
-
-        // $params = [
-        //     'location' => isset($_POST['settings']['yelpLocation']) ? $_POST['settings']['yelpLocation'] : 'San Francisco, CA', // You can modify this to use a dynamic location if needed
-        //     'term'     => isset($filter_item) ? $filter_item : 'restaurants',
-        //     'limit'    => isset($_POST['settings']['yelpLimit']) ? $_POST['settings']['yelpLimit'] : 10, // Max is 50
-        //     'sort_by'  => isset($_POST['settings']['yelpSortBy']) ? $_POST['settings']['yelpSortBy'] : 'best_match', // highest_rated, review_count, distance
-        // ];
-
-        // $url = $endpoint . '?' . http_build_query($params);
-
-        // $ch = curl_init($url);
-
-        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-        // $response = curl_exec($ch);
-
-        // if (curl_errno($ch)) {
-        //     echo 'Curl error: ' . curl_error($ch);
-        // }
-
-        // curl_close($ch);
-
-        // // Decode the JSON response
-        // $decoded_response = json_decode($response, true);
-
-        // // Check if decoding was successful
-        // if ($decoded_response === null) {
-        //     echo 'Error decoding JSON response.';
-        // } else {
-        //     // Return the decoded response
-        //     return $decoded_response['businesses'];
-        // }
+    public function set_cached_api_data($filter, $data) {
+        $cache_key = 'TRUSTIFY_REVIEWS_' . $filter;
+        set_transient($cache_key, $data, 60 * 60 * 24);
     }
 
     public function your_api_request_function() {
@@ -200,6 +167,7 @@ final class TRUSTIFY_REVIEWS_INIT {
             $allReview = array_merge($allReview, $response->items);
             $page++;
         } while ($response->items);
+        $this->set_cached_api_data('nnn', $allReview);
         wp_send_json($allReview);
     }
     protected function getApiUrl() {

@@ -55,6 +55,7 @@
                   review.username = "Anonymous";
                 }
 
+                const rating = review.value * 20;
                 const totalWords = review.text.split(' ').length;
                 if(totalWords <= 18) {
                    status = 'short'
@@ -65,10 +66,27 @@
                   status = 'long'
                 }
 
+
+                let reviewStatus = '';
+
+                if(rating >= 80) {
+                  reviewStatus = 'Excellent';
+                }else if(rating >= 60 && rating < 80) {
+                  reviewStatus = 'Good';
+                }else if(rating >= 40 && rating < 60) {
+                  reviewStatus = 'Average';
+                }else if(rating >= 20 && rating < 40) {
+                  reviewStatus = 'Poor';
+                }else if(rating >= 0 && rating < 20) {
+                  reviewStatus = 'Bad';
+                }
+
+
+
             const template = `
               <div class="trustify-reviews-item ${status}">
                 <div class="trustify-reviews-heading">
-                    <span><strong>Excellent 1/9</strong></span>
+                    <span><strong>${reviewStatus} ${rating / 10}/10</strong></span>
                 </div>
                 <div class="trustify-reviews-content">
                     <h3 class="trustify-reviews-title">
@@ -80,7 +98,9 @@
                 </div>
                 <div class="trustify-reviews-footer">
                     <div class="trustify-reviews-date">Posted ${pulishedDate}</div>
-                    <div class="trustify-reviews-star">${review.value} Star</div>
+                    <div class="trustify-reviews-star">
+                    <span class="star-rating stars-${rating}">★★★★★</span>
+                    </div>
                 </div>
             </div>
             `;
