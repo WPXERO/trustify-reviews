@@ -91,9 +91,13 @@ final class TRUSTIFY_REVIEWS_INIT {
         printf('<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', $message);
     }
 
+    public function load_files() {
+        require_once __DIR__ . '/includes/settings.php';
+    }
 
     public function init() {
         load_plugin_textdomain('trustify-reviews', false, plugin_dir_path(__FILE__) . '/languages');
+        $this->load_files();
 
         // Check if Elementor installed and activated
         if (!did_action('elementor/loaded')) {
@@ -154,11 +158,16 @@ final class TRUSTIFY_REVIEWS_INIT {
 
     public function your_api_request_function() {
         $api_url = $this->getApiUrl();
-        $trustyProfileId = '124032242297630996235869843795968';
+        $options = get_option('trustify_reviews_settings');
+        $business_id = isset($options['business_id']) ? $options['business_id'] : '';
+        // $business_id = '62835855486917834877667559591936';
+        // $business_id = '124032242297630996235869843795968';
+        // $business_id = '125703889431862179196789435166720';
+
         $allReview = [];
         $page = 1;
         do {
-            $source      = wp_remote_get($api_url . $trustyProfileId . '/feed?page=' . $page);
+            $source      = wp_remote_get($api_url . $business_id . '/feed?page=' . $page);
             if (is_wp_error($source)) {
                 return [];
             }
