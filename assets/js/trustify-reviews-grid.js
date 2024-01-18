@@ -5,7 +5,7 @@
     const settings = $(trustifyContent).data("settings");
     if (!trustifyContent.length) return;
 
-    const  formatTimeAgo = (timestamp) => {
+    const formatTimeAgo = (timestamp) => {
       const date = new Date(timestamp);
       const now = new Date();
       const timeDifference = now - date;
@@ -46,44 +46,49 @@
         },
         success: function (dataObj) {
           // If the API call was a success
+
           if (dataObj) {
 
+
+
             dataObj.forEach((review, index) => {
+              // if (index < settings.limit) {
+
               const pulishedDate = formatTimeAgo(review.createdAt);
               let status = '';
-                if(review.username === "") {
-                  review.username = "Anonymous";
-                }
+              if (review.username === "") {
+                review.username = "Anonymous";
+              }
 
-                const rating = review.value * 20;
-                const totalWords = review.text.split(' ').length;
-                if(totalWords <= 18) {
-                   status = 'short'
-                }else if(totalWords >= 19 && totalWords < 50) {
-                  status = 'medium'
-                }
-                else{
-                  status = 'long'
-                }
-
-
-                let reviewStatus = '';
-
-                if(rating >= 80) {
-                  reviewStatus = 'Excellent';
-                }else if(rating >= 60 && rating < 80) {
-                  reviewStatus = 'Good';
-                }else if(rating >= 40 && rating < 60) {
-                  reviewStatus = 'Average';
-                }else if(rating >= 20 && rating < 40) {
-                  reviewStatus = 'Poor';
-                }else if(rating >= 0 && rating < 20) {
-                  reviewStatus = 'Bad';
-                }
+              const rating = review.value * 20;
+              const totalWords = review.text.split(' ').length;
+              if (totalWords <= 18) {
+                status = 'short'
+              } else if (totalWords >= 19 && totalWords < 50) {
+                status = 'medium'
+              }
+              else {
+                status = 'long'
+              }
 
 
+              let reviewStatus = '';
 
-            const template = `
+              if (rating >= 80) {
+                reviewStatus = 'Excellent';
+              } else if (rating >= 60 && rating < 80) {
+                reviewStatus = 'Good';
+              } else if (rating >= 40 && rating < 60) {
+                reviewStatus = 'Average';
+              } else if (rating >= 20 && rating < 40) {
+                reviewStatus = 'Poor';
+              } else if (rating >= 0 && rating < 20) {
+                reviewStatus = 'Bad';
+              }
+
+
+
+              const template = `
               <div class="trustify-reviews-item ${status}">
                 <div class="trustify-reviews-heading">
                     <span><strong>${reviewStatus} ${rating / 10}/10</strong></span>

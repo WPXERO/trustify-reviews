@@ -1,10 +1,10 @@
 <?php
 /*
  * Plugin Name: Trustify Reviews
- * Plugin URI: https://github.com/HelloTalib
+ * Plugin URI: https://github.com/WPXERO
  * Description: Trustify Reviews is a plugin that allows you to display Yelp reviews in a carousel slider or tabbed widget.
  * Version: 1.0.0
- * Author: flexthemes, HelloTalib, wpxero, abu talib
+ * Author: WPXERO
  * Author URI: https://wpxero.com
  * License: GPLv3
  * Text Domain: trustify-reviews
@@ -14,18 +14,17 @@
 namespace TRUSTIFY_REVIEWS;
 
 use TRUSTIFY_REVIEWS\WIDGETS\TRUSTIFY_REVIEWS_GRID;
-use Elementor\Plugin;
 
 if (!defined('ABSPATH')) {
     exit(__('Direct Access is not allowed', 'trustify-reviews'));
 }
 
 
-define('yelp_tbc_version', time());
+define('TRUSTIFY_REVIEWS_VERSION', time());
 
 final class TRUSTIFY_REVIEWS_INIT {
 
-    const VERSION                   = yelp_tbc_version;
+    const VERSION                   = TRUSTIFY_REVIEWS_VERSION;
     const MINIMUM_ELEMENTOR_VERSION = '3.0.0';
     const MINIMUM_PHP_VERSION       = '7.0';
 
@@ -134,7 +133,7 @@ final class TRUSTIFY_REVIEWS_INIT {
             die();
         }
 
-        $getData = $this->get_cached_api_data('ffnnn');
+        $getData = $this->get_cached_api_data('all');
         if ($getData) {
             wp_send_json($getData);
         } else {
@@ -167,7 +166,7 @@ final class TRUSTIFY_REVIEWS_INIT {
         $allReview = [];
         $page = 1;
         do {
-            $source      = wp_remote_get($api_url . $business_id . '/feed?page=' . $page);
+            $source      = wp_remote_get($api_url . $business_id . '/feed?page=' . $page . '&limit=10');
             if (is_wp_error($source)) {
                 return [];
             }
@@ -176,7 +175,7 @@ final class TRUSTIFY_REVIEWS_INIT {
             $allReview = array_merge($allReview, $response->items);
             $page++;
         } while ($response->items);
-        $this->set_cached_api_data('nnn', $allReview);
+        $this->set_cached_api_data('all', $allReview);
         wp_send_json($allReview);
     }
     protected function getApiUrl() {
@@ -189,7 +188,7 @@ final class TRUSTIFY_REVIEWS_INIT {
         $elements_manager->add_category(
             'trustify-reviews',
             [
-                'title' => __('Yelp', 'trustify-reviews'),
+                'title' => __('Trustify', 'trustify-reviews'),
             ]
         );
     }
@@ -198,13 +197,7 @@ final class TRUSTIFY_REVIEWS_INIT {
      * !enqueue assets
      */
     public function widget_assets_enqueue() {
-        // fontawesome
-        wp_enqueue_style('fontawesome-css', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css', [], self::VERSION);
-        // slick slider
-        wp_enqueue_style('trustify-reviews-slick-css', '//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css', [], self::VERSION);
-        wp_enqueue_script('trustify-reviews-slick-js', '//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js', ['jquery'], self::VERSION, true);
 
-        // slick slider
 
         wp_enqueue_style('trustify-reviews-css', plugin_dir_url(__FILE__) . 'assets/css/style.css', [], self::VERSION);
         wp_enqueue_script('trustify-reviews-js', plugin_dir_url(__FILE__) . 'assets/js/trustify-reviews-grid.js', ['jquery'], self::VERSION, true);

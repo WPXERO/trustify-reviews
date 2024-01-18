@@ -98,63 +98,6 @@ class TRUSTIFY_REVIEWS_GRID extends Widget_Base {
                 ],
             ]
         );
-        $repeater = new Repeater();
-        $repeater->add_control(
-            'yelp_term',
-            [
-                'label'   => __('Categories/Terms', 'trustify-reviews'),
-                'type'    => Controls_Manager::TEXT,
-            ]
-        );
-        $repeater->add_control(
-            'menu_icon',
-            [
-                'label' => __('Icon', 'trustify-reviews'),
-                'type' => Controls_Manager::ICONS,
-                'label_block' => false,
-                'skin' => 'inline',
-
-            ]
-        );
-        $this->add_control(
-            'yelp_terms',
-            [
-                'label'  => esc_html__('Yelp Listings', 'trustify-reviews'),
-                'type' => Controls_Manager::REPEATER,
-                'fields' => $repeater->get_controls(),
-                'default' => [
-                    [
-                        'yelp_term' => __('restaurants', 'trustify-reviews'),
-                        'menu_icon'  => ['value' => 'fas fa-home', 'library' => 'fa-solid'],
-                    ],
-                    [
-                        'yelp_term' => __('bars', 'trustify-reviews'),
-                        'menu_icon'  => ['value' => 'fas fa-home', 'library' => 'fa-solid'],
-                    ],
-                    [
-                        'yelp_term' => __('shopping', 'trustify-reviews'),
-                        'menu_icon'  => ['value' => 'fas fa-home', 'library' => 'fa-solid'],
-                    ],
-                    [
-                        'yelp_term' => __('coffee', 'trustify-reviews'),
-                        'menu_icon'  => ['value' => 'fas fa-home', 'library' => 'fa-solid'],
-                    ],
-                    [
-                        'yelp_term' => __('fitness', 'trustify-reviews'),
-                        'menu_icon'  => ['value' => 'fas fa-home', 'library' => 'fa-solid'],
-                    ],
-                    [
-                        'yelp_term' => __('hair', 'trustify-reviews'),
-                        'menu_icon'  => ['value' => 'fas fa-shopping-cart', 'library' => 'fa-solid'],
-                    ],
-                    [
-                        'yelp_term' => __('pets', 'trustify-reviews'),
-                        'menu_icon'  => ['value' => 'fas fa-user', 'library' => 'fa-solid'],
-                    ],
-                ],
-                'title_field' => '{{{ elementor.helpers.renderIcon( this, menu_icon, {}, "i", "panel" ) || \'<i class="{{ icon }}" aria-hidden="true"></i>\' }}} {{{ yelp_term }}}',
-            ]
-        );
 
         $this->end_controls_section();
 
@@ -686,15 +629,15 @@ class TRUSTIFY_REVIEWS_GRID extends Widget_Base {
                 'trustify-reviews-grid' => [
                     'class'         => ['trustify-reviews-grid', 'usk-info-style-right', 'trustify-reviews-grid'],
                     'data-settings' => [
-                        wp_json_encode(
-                            [
-                                'yelpLocation' => $settings['yelp_location'],
-                                'yelpLimit' => $settings['yelp_limit'],
-                                'initialFilter' => $settings['yelp_terms'][0]['yelp_term'],
-                                'yelpApiKey' => $settings['yelp_api_key'],
-                                'yelpSortBy' => $settings['yelp_sort_by'],
-                            ]
-                        ),
+                        // wp_json_encode(
+                        //     [
+                        //         'yelpLocation' => $settings['yelp_location'],
+                        //         'yelpLimit' => $settings['yelp_limit'],
+                        //         'initialFilter' => $settings['yelp_terms'][0]['yelp_term'],
+                        //         'yelpApiKey' => $settings['yelp_api_key'],
+                        //         'yelpSortBy' => $settings['yelp_sort_by'],
+                        //     ]
+                        // ),
                     ],
                 ],
             ]
@@ -703,6 +646,6 @@ class TRUSTIFY_REVIEWS_GRID extends Widget_Base {
 ?>
         <div <?php $this->print_render_attribute_string('trustify-reviews-grid'); ?>>
         </div>
-    <?php
+<?php
     }
 }
